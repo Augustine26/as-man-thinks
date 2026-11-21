@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>As A Man Thinketh — Glassmorphism Desktop & Web Companion</title>
+<style>
+  :root {
+    --gold: #f5d061;
+    --gold-deep: #d4af37;
+    --cyan-glow: #38bdf8;
+    --bg-dark: #0b0f19;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: radial-gradient(circle at 18% 22%, #1e293b 0%, #0b0f19 55%, #06080f 100%);
+    color: #f8fafc;
+    overflow: hidden;
+    padding: 20px;
+  }
+
+  /* Ambient background orbs to showcase true frosted glassmorphism */
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: 0;
+    animation: floatOrb 12s ease-in-out infinite alternate;
+  }
+  .orb-1 {
+    width: 340px; height: 340px;
+    background: rgba(245, 208, 97, 0.22);
+    top: 12%; left: 18%;
+  }
+  .orb-2 {
+    width: 380px; height: 380px;
+    background: rgba(56, 189, 248, 0.18);
+    bottom: 10%; right: 16%;
+    animation-delay: -5s;
+  }
+
+  @keyframes floatOrb {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(35px, -25px) scale(1.08); }
+  }
+
+  /* Animated Conic Gradient Stroke Container */
+  @property --angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+  }
+
+  .glass-stroke-wrapper {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 520px;
+    border-radius: 24px;
+    padding: 2px;
+    background: conic-gradient(
+      from var(--angle),
+      var(--gold) 0deg,
+      rgba(255, 255, 255, 0.25) 90deg,
+      var(--cyan-glow) 180deg,
+      rgba(255, 255, 255, 0.12) 270deg,
+      var(--gold) 360deg
+    );
+    animation: spinStroke 6s linear infinite;
+    box-shadow:
+      0 25px 50px -12px rgba(0, 0, 0, 0.65),
+      0 0 28px rgba(245, 208, 97, 0.22);
+  }
+
+  @keyframes spinStroke {
+    to { --angle: 360deg; }
+  }
+
+  /* Frosted Glassmorphism Card */
+  .glass-card {
+    background: linear-gradient(135deg, rgba(22, 27, 38, 0.72), rgba(15, 20, 30, 0.58));
+    backdrop-filter: blur(22px) saturate(160%);
+    -webkit-backdrop-filter: blur(22px) saturate(160%);
+    border-radius: 22px;
+    padding: 32px 30px;
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.18);
+  }
+
+  .top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .chapter-pill {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: rgba(245, 208, 97, 0.14);
+    border: 1px solid rgba(245, 208, 97, 0.35);
+    padding: 6px 12px;
+    border-radius: 999px;
+  }
+
+  .notify-btn {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    color: #e2e8f0;
+    font-size: 12px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .notify-btn:hover {
+    background: rgba(245, 208, 97, 0.2);
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .quote-text {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 20px;
+    font-style: italic;
+    line-height: 1.6;
+    color: #f8fafc;
+    min-height: 110px;
+    display: flex;
+    align-items: center;
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+
+  .quote-fade {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  .footer-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .author {
+    font-size: 13px;
+    color: #94a3b8;
+  }
+
+  .controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  select {
+    background: rgba(15, 23, 42, 0.75);
+    color: #e2e8f0;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 10px;
+    padding: 7px 10px;
+    font-size: 12px;
+    outline: none;
+    cursor: pointer;
+  }
+
+  .next-btn {
+    background: linear-gradient(135deg, #f5d061, #eab308);
+    color: #0f172a;
+    border: none;
+    border-radius: 12px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(234, 179, 8, 0.35);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .next-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(234, 179, 8, 0.5);
+  }
+</style>
+</head>
+<body>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <div class="glass-stroke-wrapper">
+    <div class="glass-card">
+      <div class="top-row">
+        <span class="chapter-pill" id="chapter">THOUGHT AND CHARACTER</span>
+        <button class="notify-btn" id="enableNotif">🔔 Enable Desktop Popups</button>
+      </div>
+
+      <div class="quote-text" id="quote">
+        "They themselves are makers of themselves, by virtue of the thoughts which they choose and encourage."
+      </div>
+
+      <div class="footer-row">
+        <span class="author">— James Allen</span>
+        <div class="controls">
+          <select id="intervalSelect" title="Popup Interval">
+            <option value="15">Every 15m</option>
+            <option value="60" selected>Every 1h</option>
+            <option value="180">Every 3h</option>
+          </select>
+          <button class="next-btn" id="nextBtn">Next Thought →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+const QUOTES = [{"chapter": "Thought and Character", "quote": "They themselves are makers of themselves, by virtue of the thoughts which they choose and encourage."}, {"chapter": "Thought and Character", "quote": "As a man thinketh in his heart so is he. A man is literally what he thinks, his character being the complete sum of all his thoughts."}, {"chapter": "Thought and Character", "quote": "Act is the blossom of thought, and joy and suffering are its fruits; thus does a man garner in the sweet and bitter fruitage of his own husbandry."}, {"chapter": "Thought and Character", "quote": "Man is made or unmade by himself; in the armoury of thought he forges the weapons by which he destroys himself; he also fashions the tools with which he builds for himself heavenly mansions of joy and strength and peace."}, {"chapter": "Thought and Character", "quote": "As a being of Power, Intelligence, and Love, and the lord of his own thoughts, man holds the key to every situation."}, {"chapter": "Effect of Thought on Circumstances", "quote": "Man's mind may be likened to a garden, which may be intelligently cultivated or allowed to run wild; but whether cultivated or neglected, it must, and will, bring forth."}, {"chapter": "Effect of Thought on Circumstances", "quote": "The soul attracts that which it secretly harbours; that which it loves, and also that which it fears."}, {"chapter": "Effect of Thought on Circumstances", "quote": "Circumstance does not make the man; it reveals him to himself."}, {"chapter": "Effect of Thought on Circumstances", "quote": "Men do not attract that which they want, but that which they are."}, {"chapter": "Effect of Thought on Circumstances", "quote": "A man cannot directly choose his circumstances, but he can choose his thoughts, and so indirectly, yet surely, shape his circumstances."}, {"chapter": "Effect of Thought on Circumstances", "quote": "Thought rapidly crystallizes into habit, and habit solidifies into circumstance."}, {"chapter": "Effect of Thought on Health and the Body", "quote": "The body is the servant of the mind. It obeys the operations of the mind, whether they be deliberately chosen or automatically expressed."}, {"chapter": "Effect of Thought on Health and the Body", "quote": "Out of a clean heart comes a clean life and a clean body. Make the fountain pure, and all will be pure."}, {"chapter": "Effect of Thought on Health and the Body", "quote": "If you would protect your body, guard your mind. If you would renew your body, beautify your mind."}, {"chapter": "Effect of Thought on Health and the Body", "quote": "There is no physician like cheerful thought for dissipating the ills of the body; there is no comforter to compare with goodwill for dispersing the shadows of grief and sorrow."}, {"chapter": "Thought and Purpose", "quote": "Until thought is linked with purpose there is no intelligent accomplishment."}, {"chapter": "Thought and Purpose", "quote": "A man should conceive of a legitimate purpose in his heart, and set out to accomplish it. He should make this purpose the centralizing point of his thoughts."}, {"chapter": "Thought and Purpose", "quote": "He who has conquered doubt and fear has conquered failure. His every thought is allied with power, and all difficulties are bravely met and wisely overcome."}, {"chapter": "Thought and Purpose", "quote": "Thought allied fearlessly to purpose becomes creative force."}, {"chapter": "The Thought-Factor in Achievement", "quote": "All that a man achieves and all that he fails to achieve is the direct result of his own thoughts."}, {"chapter": "The Thought-Factor in Achievement", "quote": "A man can only rise, conquer, and achieve by lifting up his thoughts. He can only remain weak, and abject, and miserable by refusing to lift up his thoughts."}, {"chapter": "The Thought-Factor in Achievement", "quote": "Victories attained by right thought can only be maintained by watchfulness."}, {"chapter": "The Thought-Factor in Achievement", "quote": "He who would accomplish little must sacrifice little; he who would achieve much must sacrifice much; he who would attain highly must sacrifice greatly."}, {"chapter": "Visions and Ideals", "quote": "The dreamers are the saviours of the world. Cherish your visions; cherish your ideals."}, {"chapter": "Visions and Ideals", "quote": "Dream lofty dreams, and as you dream, so shall you become. Your Vision is the promise of what you shall one day be; your Ideal is the prophecy of what you shall at last unveil."}, {"chapter": "Visions and Ideals", "quote": "The greatest achievement was at first and for a time a dream. The oak sleeps in the acorn; the bird waits in the egg; and in the highest vision of the soul a waking angel stirs."}, {"chapter": "Visions and Ideals", "quote": "You cannot travel within and stand still without."}, {"chapter": "Visions and Ideals", "quote": "The Vision that you glorify in your mind, the Ideal that you enthrone in your heart—this you will build your life by, this you will become."}, {"chapter": "Serenity", "quote": "Calmness of mind is one of the beautiful jewels of wisdom. It is the result of long and patient effort in self-control."}, {"chapter": "Serenity", "quote": "The strong, calm man is always loved and revered. He is like a shade-giving tree in a thirsty land, or a sheltering rock in a storm."}, {"chapter": "Serenity", "quote": "Keep your hand firmly upon the helm of thought. Self-control is strength; Right Thought is mastery; Calmness is power. Say unto your heart, 'Peace, be still!'"}];
+
+let idx = Math.floor(Math.random() * QUOTES.length);
+const chapterEl = document.getElementById('chapter');
+const quoteEl = document.getElementById('quote');
+const nextBtn = document.getElementById('nextBtn');
+const enableNotifBtn = document.getElementById('enableNotif');
+const intervalSelect = document.getElementById('intervalSelect');
+
+function renderQuote(sendNotification = false) {
+  const item = QUOTES[idx];
+  quoteEl.classList.add('quote-fade');
+  setTimeout(() => {
+    chapterEl.textContent = item.chapter;
+    quoteEl.textContent = `"${item.quote}"`;
+    quoteEl.classList.remove('quote-fade');
+  }, 220);
+
+  if (sendNotification && 'Notification' in window && Notification.permission === 'granted') {
+    new Notification(`As A Man Thinketh • ${item.chapter}`, {
+      body: `"${item.quote}" — James Allen`
+    });
+  }
+}
+
+nextBtn.addEventListener('click', () => {
+  idx = (idx + 1) % QUOTES.length;
+  renderQuote(false);
+});
+
+enableNotifBtn.addEventListener('click', async () => {
+  if (!('Notification' in window)) {
+    alert('Desktop notifications are not supported in this browser.');
+    return;
+  }
+  const perm = await Notification.requestPermission();
+  if (perm === 'granted') {
+    enableNotifBtn.textContent = '✅ Desktop Popups Active';
+    renderQuote(true);
+  }
+});
+
+let timerId = null;
+function startTimer() {
+  if (timerId) clearInterval(timerId);
+  const mins = parseInt(intervalSelect.value, 10);
+  timerId = setInterval(() => {
+    idx = Math.floor(Math.random() * QUOTES.length);
+    renderQuote(true);
+  }, mins * 60 * 1000);
+}
+
+intervalSelect.addEventListener('change', startTimer);
+renderQuote(false);
+startTimer();
+</script>
+</body>
+</html>

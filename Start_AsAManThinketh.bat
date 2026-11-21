@@ -1,2 +1,3 @@
 @echo off
-start "" /min powershell.exe -WindowStyle Hidden -ExecutionPolicy Bypass -File "%~dp0AsAManThinketh_Popup.ps1"
+cd /d "%~dp0"
+start "" powershell.exe -NoProfile -STA -WindowStyle Hidden -ExecutionPolicy Bypass -File "%~dp0AsAManThinketh_GlassPopup.ps1"
